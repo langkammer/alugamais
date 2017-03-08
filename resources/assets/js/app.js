@@ -1,20 +1,30 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
+'use strict';
 require('./bootstrap');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+// Declare app level module which depends on views, and components
+angular.module('alugamais', [])
+.controller('ClienteController', ['$scope',function($scope) {
 
-Vue.component('example', require('./components/Example.vue'));
+    console.log("testado");
+    $scope.fiador = 'NAO';
 
-const app = new Vue({
-    el: '#app'
-});
+    $scope.excluir = function ($id) {
+        console.log("excluir",$id);
+    };
+
+}])
+.controller('AluguelController', [function() {
+
+    console.log("testado")
+
+}])
+.controller('FaturaController', [function() {
+
+    console.log("testado")
+
+}]);
+// .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+//     $locationProvider.hashPrefix('!');
+//
+//     $routeProvider.otherwise({redirectTo: '/view1'});
+// }]);

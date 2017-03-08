@@ -1,0 +1,22 @@
+{
+  "name": "alugamais",
+  "version": "0.0.0",
+  "authors": [
+    "Robson Emilio Langkammer"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "homepage": "no",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  }
+}

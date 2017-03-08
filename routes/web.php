@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+
+Route::resource('aluguel', 'AluguelController');
+Route::resource('cliente', 'ClienteController');
+Route::resource('contas', 'ContasController');
+Route::resource('fatura', 'AluguelController');
