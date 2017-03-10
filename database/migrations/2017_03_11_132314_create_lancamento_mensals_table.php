@@ -15,6 +15,7 @@ class CreateLancamentoMensalsTable extends Migration
     {
         Schema::create('lancamento_mensals', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer("mesRef");
 
             $table->integer('contas_id')->unsigned()->index()->default(1);
             $table->foreign('contas_id')
@@ -31,6 +32,10 @@ class CreateLancamentoMensalsTable extends Migration
             $table->decimal("valorAgua", 10, 2);
             $table->decimal("valorLuz", 10, 2);
             $table->decimal("valorTotal", 10, 2);
+            $table->date("dataEmissao");
+            $table->date("periodoFaturaIni");
+            $table->date("periodoFaturaFinal");
+            $table->date("dataVencimento");
             $table->enum('statusPagamento',['pago_atrasado','pago','aguardando_pagamento'])->nullable();
             $table->timestamps();
         });

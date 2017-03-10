@@ -1,41 +1,45 @@
 @include('shared.alert')
-<div class="container" ng-controller="AluguelController">
+<div class="container" ng-controller="FaturaController">
     <div class="form-group col-md-12">
-        <p>Dados Aluguel</p>
-    </div>
-    <div class="form-group col-md-1">
-        {!! Form::label('numeroAluguel', 'Numero:') !!}
-        {!! Form::text('numeroAluguel', $aluguel->numeroAluguel, ['class' => 'form-control']) !!}
+        <p>Dados da Fatura</p>
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelMensal', 'Valor  Mensal R$ : ') !!}
-        {!! Form::text('valorAluguelMensal', $aluguel->valorAluguelMensal, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('mesRef', 'Me Referente:') !!}
+        {!! Form::text('mesRef', $fatura->mesRef, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelDiario', 'Valor  Diario R$ :') !!}
-        {!! Form::text('valorAluguelDiario', $aluguel->valorAluguelDiario, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('dataEmissao', 'Data Emissao Fatura : ') !!}
+        {!! Form::date('dataEmissao', $fatura->dataEmissao, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('multaPorcentagemAtraso', 'Multa Mensal %:') !!}
-        {!! Form::text('multaPorcentagemAtraso', $aluguel->multaPorcentagemAtraso, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('periodoFaturaIni', 'Periodo Fatura Ini:') !!}
+        {!! Form::date('periodoFaturaIni', $fatura->periodoFaturaIni, ['class' => 'form-control']) !!}
     </div>
-    @if($aluguel->id)
-        <div class="form-group col-md-2">
-            {!! Form::label('status', 'Status:') !!}
-            {{ Form::select('status',  [
-                   'alugado' => 'Alugado',
-                   'em_reforma' => 'Em Reforma',
-                   'aguardoando_locacao' => 'Aguardando Locação'],$aluguel->status,['class' => 'form-control']
-            )}}
-        </div>
-    @endif
+    <div class="form-group col-md-2">
+        {!! Form::label('periodoFaturaFinal', 'Periodo Fatura Fim:') !!}
+        {!! Form::date('periodoFaturaFinal', $fatura->periodoFaturaFinal, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-2">
+        {!! Form::label('dataVencimento', 'Data de Vencimento:') !!}
+        {!! Form::date('dataVencimento', $fatura->dataVencimento, ['class' => 'form-control']) !!}
+    </div>
     <div class="form-group col-md-12">
-        {!! Form::label('descricaoAluguel', 'Descrição da Locação:') !!}
-        {!! Form::textarea('descricaoAluguel', $aluguel->descricaoAluguel, ['class' => 'form-control']) !!}
+        <p>Apurações</p>
+    </div>
+    <div class="form-group col-md-2">
+        {!! Form::label('quantidadeLeituraAgua', 'Leitura Agua:') !!}
+        {!! Form::number('quantidadeLeituraAgua', $fatura->quantidadeLeituraAgua, ['class' => 'form-control']) !!}
+        {!! Form::label('quantidadeLeituraLuz', 'Leitura Luz:') !!}
+        {!! Form::number('quantidadeLeituraLuz', $fatura->quantidadeLeituraLuz, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-2">
+        <p> Valor Agua : R$ </p>
+        <p> Valor Luz :  R$ </p>
+        <p> Valor Total : R$ </p>
+    </div>
 
-    </div>
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
-        <a href="{{ route('aluguel.index') }}" class="btn btn-info" role="button">Voltar</a>
+        <a href="{{ route('fatura.index') }}" class="btn btn-info" role="button">Voltar</a>
     </div>
 </div>

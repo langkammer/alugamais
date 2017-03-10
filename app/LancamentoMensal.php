@@ -9,6 +9,11 @@ class LancamentoMensal extends Model
 
     protected $fillable = [
         'id',
+        'mesRef',
+        'dataEmissao',
+        'periodoFaturaIni',
+        'periodoFaturaFinal',
+        'dataVencimento',
         'quantidadeLeituraAgua',
         'quantidadeLeituraLuz',
         'valorAgua',
