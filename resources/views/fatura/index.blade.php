@@ -3,50 +3,50 @@
 @section('content')
     <div class="container">
     @include('shared.alert')
-    <h1>Alugueis</h1>
-    {!! link_to_route('aluguel.create', 'Novo Aluguel', null, [
+    <h1>Fatura</h1>
+    {!! link_to_route('fatura.create', 'Nova Fatura', null, [
         'class' => 'btn btn-primary btn-lg',
         'data-remote' => 'true' ]) !!}
         <p></p>
     <table class="table" >
         <tr>
             <th>Numero</th>
-            <th>Valor Mensal</th>
-            <th>Valor Diario</th>
+            <th>Cliente</th>
+            <th>Valor Fatura</th>
             <th>Multa</th>
             <th>Status</th>
             <th></th>
 
         </tr>
-        @foreach ($aluguels as $aluguel)
+        @foreach ($faturas as $fatura)
             <tr>
-                <td>{!! $aluguel->numeroAluguel !!}</td>
-                <td>{!! $aluguel->valorAluguelMensal !!}</td>
-                <td>{!! $aluguel->valorAluguelDiario !!}</td>
-                <td>{!! $aluguel->multaPorcentagemAtraso !!}%</td>
+                <td>{!! $fatura->id !!}</td>
+                <td>{!! $fatura->contratos()->clientes()->nome !!}</td>
+                <td>{!! $fatura->valorTotal !!}</td>
+                <td>{!! $fatura->statusPagamento !!}%</td>
                 <td>
-                @if($aluguel->status=='alugado')
-                    Alugado
+                @if($fatura->statusPagamento=='pago_atrasado')
+                    Pagado Atrasado
                 @endif
-                @if($aluguel->status=='aguardoando_locacao')
-                    Aguardando Locação
+                @if($fatura->statusPagamento=='pago')
+                    Pago
                 @endif
-                @if($aluguel->status=='em_reforma')
-                    Em Reforma
+                @if($fatura->statusPagamento=='aguardando_pagamento')
+                    Aguardando Pagamento
                 @endif
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['aluguel.edit', $aluguel->id]]) !!}
+                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.edit', $fatura->id]]) !!}
                     <button type="submit" class="btn btn-success">Atualizar</button>
                     {!! Form::close() !!}
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['aluguel.show', $aluguel->id]]) !!}
+                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.show', $fatura->id]]) !!}
                     <button type="submit" class="btn btn-primary">Ver</button>
                     {!! Form::close() !!}
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['aluguel.confirmDelete', $aluguel->id]]) !!}
+                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.confirmDelete', $fatura->id]]) !!}
                     <button type="submit" class="btn btn-danger">Deletar</button>
                     {!! Form::close() !!}
                 </td>

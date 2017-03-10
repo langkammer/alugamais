@@ -17,7 +17,7 @@
     </div>
     <div class="form-group col-md-2">
         {!! Form::label('renda', 'Renda:') !!}
-        {!! Form::text('renda', $cliente->renda, ['class' => 'form-control']) !!}
+        R$ {!! Form::text('renda', $cliente->renda, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
     </div>
     <div class="form-group col-md-4">
         {!! Form::label('enderecoAnterior', 'Endereço Anterior:') !!}
@@ -87,16 +87,16 @@
             {!! Form::text('rendaFiador', $cliente->rendaFiador, ['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="form-group col-md-6">
-        {!! Form::label('dataInicioContrato', 'Data inicial contrato :') !!}
-        {!! Form::date('dataInicioContrato', $cliente->dataInicioContrato, ['class' => 'form-control']) !!}
+    {{--<div class="form-group col-md-6">--}}
+        {{--{!! Form::label('dataInicioContrato', 'Data inicial contrato :') !!}--}}
+        {{--{!! Form::date('dataInicioContrato', $cliente->dataInicioContrato, ['class' => 'form-control']) !!}--}}
 
-    </div>
-    <div class="form-group col-md-6">
-        {!! Form::label('dataFimContrato', 'Data final contrato :') !!}
-        {!! Form::date('dataFimContrato', $cliente->dataFimContrato, ['class' => 'form-control']) !!}
+    {{--</div>--}}
+    {{--<div class="form-group col-md-6">--}}
+        {{--{!! Form::label('dataFimContrato', 'Data final contrato :') !!}--}}
+        {{--{!! Form::date('dataFimContrato', $cliente->dataFimContrato, ['class' => 'form-control']) !!}--}}
 
-    </div>
+    {{--</div>--}}
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
         <a href="{{ route('cliente.index') }}" class="btn btn-info" role="button">Voltar</a>

@@ -17,6 +17,11 @@
   },
   "dependencies": {
     "angular": "^1.6.3",
+    "angular-input-masks": "^2.5.0",
+    "gulp": "^3.9.1",
+    "laravel-elixir": "^6.0.0-15",
+    "laravel-elixir-bower": "^0.1.0",
+    "laravel-elixir-wiredep": "^2.1.0",
     "main-bower-files": "^2.13.1"
   },
   "cacheDirectories": [

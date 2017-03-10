@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cliente;
 use App\Http\Requests\ClienteRequest;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Client;
 
 class ClienteController extends Controller
 {
@@ -45,14 +46,26 @@ class ClienteController extends Controller
         return view('clientes.show', compact('cliente'));
     }
 
-    public function update(Request $request, Cliente $cliente)
+    public function update(ClienteRequest $request, Cliente $cliente)
     {
-        $cliente->update($cliente->all());
-        return $cliente;
+        $cliente->update($request->all());
+
+        session()->flash('flash_message', 'Cliente Atualizado com Sucesso');
+
+        return redirect('cliente');
     }
 
     public function destroy(Cliente $cliente)
     {
-        return (string) $cliente->delete();
+
+        $deleted = $cliente->delete();
+        session()->flash('flash_message', 'Cliente deletado com Sucesso!');
+
+        return redirect('cliente');
+    }
+
+    public function deleteConfirm(Cliente $cliente)
+    {
+        return view('clientes.deleteConfirm', compact('cliente'));
     }
 }

@@ -31,4 +31,9 @@ class Cliente extends Model
         'dataFimContrato'
     ];
 
+    public function clientes()
+    {
+        return $this->hasMany('App\Aluguel');
+    }
+
 }

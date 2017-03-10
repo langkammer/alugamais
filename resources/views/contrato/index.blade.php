@@ -14,6 +14,7 @@
             <th>Valor Mensal</th>
             <th>Valor Diario</th>
             <th>Multa</th>
+            <th>Cliente</th>
             <th>Status</th>
             <th></th>
 
@@ -24,17 +25,8 @@
                 <td>{!! $aluguel->valorAluguelMensal !!}</td>
                 <td>{!! $aluguel->valorAluguelDiario !!}</td>
                 <td>{!! $aluguel->multaPorcentagemAtraso !!}%</td>
-                <td>
-                @if($aluguel->status=='alugado')
-                    Alugado
-                @endif
-                @if($aluguel->status=='aguardoando_locacao')
-                    Aguardando Locação
-                @endif
-                @if($aluguel->status=='em_reforma')
-                    Em Reforma
-                @endif
-                </td>
+                <td>{!! $aluguel->cliente->nome !!}</td>
+                <td>{!! $aluguel->status !!}</td>
                 <td>
                     {!! Form::open(['method' => 'GET', 'route' => ['aluguel.edit', $aluguel->id]]) !!}
                     <button type="submit" class="btn btn-success">Atualizar</button>

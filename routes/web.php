@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,4 +24,13 @@ Route::get('/home', 'HomeController@index');
 Route::resource('aluguel', 'AluguelController');
 Route::resource('cliente', 'ClienteController');
 Route::resource('contas', 'ContasController');
-Route::resource('fatura', 'AluguelController');
+Route::resource('fatura', 'FaturaController');
+Route::resource('contrato', 'ContratoController');
+
+//Route::get('confirm', 'ClienteController@deleteConfirm');
+Route::get('cliente/confirm/{cliente}', ['uses' => 'ClienteController@deleteConfirm', 'as' => 'cliente.confirmDelete']);
+Route::get('aluguel/confirm/{aluguel}', ['uses' => 'AluguelController@deleteConfirm', 'as' => 'aluguel.confirmDelete']);
+Route::get('contrato/confirm/{contrato}', ['uses' => 'ContratoController@deleteConfirm', 'as' => 'contrato.confirmDelete']);
+Route::get('fatura/confirm/{fatura}', ['uses' => 'FaturaController@deleteConfirm', 'as' => 'fatura.confirmDelete']);
+
+

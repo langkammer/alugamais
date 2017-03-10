@@ -3,34 +3,75 @@
 namespace App\Http\Controllers;
 
 use App\Aluguel;
-use Illuminate\Http\Request;
+use App\Cliente;
+use App\Http\Requests\AluguelRequest;
 
 class AluguelController extends Controller
 {
     //
+    //
     public function index()
     {
-        return Aluguel::all();
+
+        $aluguels = Aluguel::all();
+
+        return view('aluguel.index', compact('aluguels'));
+
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        return Aluguel::create($request->all());
+        $aluguel = new Aluguel;
+
+        $clientes = Cliente::pluck('nome', 'id')->all();
+
+
+        return view('aluguel.create', compact('aluguel','clientes'));
     }
 
-    public function show(Author $aluguel)
+    public function edit(Aluguel $aluguel)
     {
-        return $aluguel;
+        return view('aluguel.edit', compact('aluguel'));
     }
 
-    public function update(Request $request, Aluguel $aluguel)
+    public function store(AluguelRequest $request)
     {
-        $aluguel->update($aluguel->all());
-        return $aluguel;
+
+
+        $aluguel = new Aluguel();
+
+        $aluguelRequest = $aluguel->registerLoc($request->all());
+
+        session()->flash('flash_message', 'Aluguel cadastrado com Sucesso!');
+
+        return redirect('aluguel');
+    }
+
+    public function show(Aluguel $aluguel)
+    {
+        return view('aluguel.show', compact('aluguel'));
+    }
+
+    public function update(AluguelRequest $request, Aluguel $aluguel)
+    {
+        $aluguel->update($request->all());
+
+        session()->flash('flash_message', 'Aluguel Atualizado com Sucesso');
+
+        return redirect('aluguel');
     }
 
     public function destroy(Aluguel $aluguel)
     {
-        return (string) $aluguel->delete();
+
+        $deleted = $aluguel->delete();
+        session()->flash('flash_message', 'Aluguel deletado com Sucesso!');
+
+        return redirect('aluguel');
+    }
+
+    public function deleteConfirm(Aluguel $aluguel)
+    {
+        return view('aluguel.deleteConfirm', compact('aluguel'));
     }
 }

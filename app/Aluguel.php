@@ -12,19 +12,26 @@ class Aluguel extends Model
     protected $fillable = [
         'id',
         'numeroAluguel',
-        'possuiSala',
-        'possuiQuarto',
-        'possuiBanheiro',
         'descricaoAluguel',
         'valorAluguelMensal',
         'valorAluguelDiario',
         'multaPorcentagemAtraso',
-        'cliente_id'
+        'status'
 
     ];
 
-    public function cliente()
-    {
-        return $this->belongsTo('App\Cliente');
+
+    public function registerLoc(array $attributes = []){
+
+        $aluguel = new Aluguel();
+        $aluguel = new static($attributes);
+
+
+        if($aluguel->id==null){
+            $aluguel->status = 'aguardoando_locacao';
+        }
+
+        return  $aluguel->save();
+
     }
 }

@@ -15,24 +15,33 @@ class LancamentoMensal extends Model
         'valorLuz',
         'valorTotal',
         'statusPagamento',
-        'aluguel_id',
         'contas_id',
-        'cliente_id'
+        'contrato_id'
 
     ];
 
-    public function cliente()
+    public function contratos()
     {
-        return $this->belongsTo('App\Cliente');
+        return $this->belongsTo('App\Contrato');
     }
 
-    public function aluguel()
-    {
-        return $this->belongsTo('App\Aluguel');
-    }
 
     public function contas()
     {
         return $this->belongsTo('App\Conta');
+    }
+
+    public function registerLoc(array $attributes = []){
+
+        $aluguel = new Aluguel();
+        $aluguel = new static($attributes);
+
+
+        if($aluguel->id==null){
+            $aluguel->status = 'aguardoando_locacao';
+        }
+
+        return  $aluguel->save();
+
     }
 }

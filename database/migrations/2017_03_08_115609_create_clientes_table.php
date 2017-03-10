@@ -19,7 +19,7 @@ class CreateClientesTable extends Migration
             $table->string("cpf");
             $table->string("rg");
             $table->string("numeroCarteiraTrabalho")->nullable();
-            $table->float("renda");
+            $table->decimal('renda', 10, 2);
             $table->string("telefone");
             $table->string("enderecoAnterior")->nullable();
             $table->string("banco")->nullable();
@@ -34,8 +34,6 @@ class CreateClientesTable extends Migration
             $table->string("telefoneFiador")->nullable();
             $table->float("rendaFiador")->nullable();
             $table->string("emailCliente")->nullable();
-            $table->date("dataInicioContrato");
-            $table->date("dataFimContrato");
             $table->timestamps();
         });
     }

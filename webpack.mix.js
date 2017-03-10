@@ -1,4 +1,6 @@
 const { mix } = require('laravel-mix');
+var bowerFiles = require('main-bower-files');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -10,7 +12,7 @@ const { mix } = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+mix.scripts('bower_components/jquery-maskmoney/dist/jquery.maskMoney.min.js', 'public/js/maskmoney.js')
+mix.scripts(bowerFiles('**/*.js'), 'public/js/3rd-party.js')
 mix.js('resources/assets/js/app.js', 'public/js')
-mix.js('resources/assets/js/angular/angular.js', 'public/js/angular')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css');

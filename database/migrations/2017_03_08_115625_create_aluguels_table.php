@@ -16,18 +16,11 @@ class CreateAluguelsTable extends Migration
         Schema::create('aluguels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('numeroAluguel');
-            $table->boolean('possuiSala');
-            $table->boolean('possuiQuarto');
-            $table->boolean('possuiBanheiro');
             $table->longText('descricaoAluguel');
-            $table->float('valorAluguelMensal');
-            $table->float('valorAluguelDiario');
-            $table->boolean('status');
-            $table->float("multaPorcentagemAtraso");
-            $table->integer('cliente_id')->unsigned()->index()->default(1);
-            $table->foreign('cliente_id')
-                ->references('id')
-                ->on('clientes');
+            $table->decimal('valorAluguelMensal', 10, 2);
+            $table->decimal('valorAluguelDiario', 10, 2);
+            $table->enum('status',['alugado','em_reforma','aguardoando_locacao'])->nullable();;
+            $table->decimal("multaPorcentagemAtraso", 10, 2)->nullable();;
             $table->timestamps();
         });
     }

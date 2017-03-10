@@ -27,16 +27,18 @@
                 <td>{!! $cliente->renda !!}</td>
                 <td>
                     {!! Form::open(['method' => 'GET', 'route' => ['cliente.edit', $cliente->id]]) !!}
-                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                    <button type="submit" class="btn btn-success">Atualizar</button>
                     {!! Form::close() !!}
                 </td>
                 <td>
                     {!! Form::open(['method' => 'GET', 'route' => ['cliente.show', $cliente->id]]) !!}
-                    <button type="submit" class="btn btn-info">Ver</button>
+                    <button type="submit" class="btn btn-primary">Ver</button>
                     {!! Form::close() !!}
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-warning" ng-click="excluir({!! $cliente->id !!})">Deletar</button>
+                    {!! Form::open(['method' => 'GET', 'route' => ['cliente.confirmDelete', $cliente->id]]) !!}
+                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

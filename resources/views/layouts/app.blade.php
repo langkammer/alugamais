@@ -11,6 +11,8 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
+    <!-- bower:css -->
+    <!-- endbower -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
@@ -57,6 +59,7 @@
                         <li><a href="{{ route('aluguel.index') }}">Alugueis</a></li>
                         <li><a href="{{ route('fatura.index') }}">Faturas</a></li>
                         <li><a href="{{ route('contas.index') }}">Contas</a></li>
+                        <li><a href="{{ route('contrato.index') }}">Contratos</a> </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -84,10 +87,16 @@
 
         @yield('content')
     </div>
-
     <!-- Scripts -->
-    <script src="{{ asset('js/angular/angular.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src='/js/3rd-party.js'></script>
+    <script type="text/javascript" src='/js/maskmoney.js'></script>
+    <script type="text/javascript" src='/js/app.js'></script>
+    <script>
+        $("#valorAluguelMensal").maskMoney();
+        $("#multaPorcentagemAtraso").maskMoney();
+        $("#valorAluguelDiario").maskMoney();
+        $("#renda").maskMoney();
 
+    </script>
 </body>
 </html>
