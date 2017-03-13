@@ -27,18 +27,18 @@ class LancamentoMensal extends Model
 
     public function contratos()
     {
-        return $this->belongsTo('App\Contrato');
+        return $this->hasOne('App\Contrato');
     }
 
 
     public function contas()
     {
-        return $this->belongsTo('App\Conta');
+        return $this->hasMany('App\Conta');
     }
 
-    public function registerLoc(array $attributes = []){
+    public function lancarFatura(array $attributes = []){
 
-        $aluguel = new Aluguel();
+        $aluguel = new LancamentoMensal();
         $aluguel = new static($attributes);
 
 

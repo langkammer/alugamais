@@ -2,7 +2,7 @@
 // require('./bootstrap');
 
 // Declare app level module which depends on views, and components
-angular.module('alugamais',[])
+angular.module('alugamais',['ui.bootstrap'])
 .controller('ClienteController', ['$scope',function($scope) {
 
     console.log("testado ");
@@ -24,9 +24,74 @@ angular.module('alugamais',[])
     console.log("testado")
 
 }])
-.controller('FaturaController', [function() {
+.controller('FaturaController', ['$scope','$http', function($scope,$http) {
 
-    console.log("testado")
+    $scope.calcularAluguel = function () {
+
+        console.log("calculando contrato");
+
+        if($scope.tipoContrato != 'mensal'){
+            $scope.valorTotal += ($scope.valorAluguelDiario * $scope.dias);
+        }
+        else{
+            $scope.valorTotal += $scope.valorAluguelMensal;
+        }
+
+
+        console.log($scope.valorTotal);
+    };
+
+    $scope.selecionaContrato = function () {
+
+        console.log("contrato ", $scope.contrato)
+
+        $http.get('/contrato/getJson/'+$scope.contrato).then(function (data) {
+            console.log(data.data);
+            $scope.valorAluguelMensal = data.data.aluguels.valorAluguelMensal;
+            $scope.valorAluguelDiario = data.data.aluguels.valorAluguelDiario;
+            $scope.multaPorcentagemAtraso = data.data.aluguels.multaPorcentagemAtraso;
+            $scope.tipoContrato = data.data.tipoContrato;
+
+            $scope.calcularAluguel();
+            console.log();
+
+        }, function (err) {
+            console.log(err);
+        });
+    };
+
+
+    function dateDiferencaEmDias(dataIni, dataFim) {
+        // Descartando timezone e horário de verão
+        var utc1 = Date.UTC(dataIni.getFullYear(), dataIni.getMonth(), dataIni.getDate());
+        var utc2 = Date.UTC(dataFim.getFullYear(), dataFim.getMonth(), dataFim.getDate());
+
+        $scope.dias = Math.floor((utc2 - utc1) / ( 1000 * 60 * 60 * 24) );
+    }
+    $scope.dataRefAtual = new Date();
+
+
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2020, 5, 22),
+        minDate: new Date(),
+        startingDay: 1
+    };
+
+
+
+    $scope.dateRef = function() {
+        $scope.dataRef.opened = true;
+    };
+
+    $scope.format = 'MM/yyyy';
+
+    $scope.dataRef = {
+        opened: false
+    };
+
+
 
 }])
 .config(function($interpolateProvider) {

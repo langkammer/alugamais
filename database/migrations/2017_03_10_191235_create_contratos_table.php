@@ -28,6 +28,7 @@ class CreateContratosTable extends Migration
                 ->on('aluguels');
 
 
+            $table->enum('tipoContrato',['mensal','diario'])->nullable();;
             $table->date("dataInicioContrato");
             $table->date("dataFimContrato");
 

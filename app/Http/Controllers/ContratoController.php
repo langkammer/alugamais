@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Aluguel;
 use App\Contrato;
 use App\Http\Requests\ContratoRequest;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Object_;
 
 class ContratoController extends Controller
 {
@@ -26,7 +28,6 @@ class ContratoController extends Controller
         $clientes = Cliente::pluck('nome', 'id')->all();
 
         $alugueis = Aluguel::pluck('numero', 'id')->all();
-
 
         return view('contrato.create', compact('contrato','alugueis','clientes'));
     }
@@ -51,6 +52,19 @@ class ContratoController extends Controller
     public function show(Contrato $contrato)
     {
         return view('contrato.show', compact('contrato'));
+    }
+
+    public function showJson(Contrato $contrato)
+    {
+
+        $contratos = new Contrato();
+        $contratos->id = $contrato->id;
+        $contratos->dataInicioContrato = $contrato->dataInicioContrato;
+        $contratos->dataFimContrato = $contrato->dataFimContrato;
+        $contratos->clientes = $contrato->clientes;
+        $contratos->aluguels = $contrato->aluguels;
+        $contratos->tipoContrato = $contrato->tipoContrato;
+        return $contratos;
     }
 
     public function update(ContratoRequest $request, Contrato $contrato)

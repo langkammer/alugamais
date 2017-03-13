@@ -21,6 +21,7 @@
     "lodash": "^4.17.4",
     "jquery": "^3.1.1",
     "angular": "^1.6.3",
-    "jquery-maskmoney": "^3.0.2"
+    "jquery-maskmoney": "^3.0.2",
+    "angular-bootstrap": "^2.5.0"
   }
 }

@@ -13,16 +13,17 @@ class Contrato extends Model
         'cliente_id',
         'aluguel_id',
         'dataInicioContrato',
-        'dataFimContrato'
+        'dataFimContrato',
+        'tipoContrato'
     ];
 
     public function aluguels()
     {
-        return $this->hasOne('App\Aluguel');
+        return $this->hasOne('App\Aluguel','id','aluguel_id');
     }
 
     public function clientes()
     {
-        return $this->hasOne('App\Cliente');
+        return $this->hasOne('App\Cliente','id','cliente_id');
     }
 }

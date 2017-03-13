@@ -32,5 +32,6 @@ Route::get('cliente/confirm/{cliente}', ['uses' => 'ClienteController@deleteConf
 Route::get('aluguel/confirm/{aluguel}', ['uses' => 'AluguelController@deleteConfirm', 'as' => 'aluguel.confirmDelete']);
 Route::get('contrato/confirm/{contrato}', ['uses' => 'ContratoController@deleteConfirm', 'as' => 'contrato.confirmDelete']);
 Route::get('fatura/confirm/{fatura}', ['uses' => 'FaturaController@deleteConfirm', 'as' => 'fatura.confirmDelete']);
+Route::get('contrato/getJson/{contrato}', ['uses' => 'ContratoController@showJson', 'as' => 'contrato.showJson']);
 
 

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use App\Conta;
+use App\Contrato;
 use App\Http\Requests\FaturaRequest;
 use App\LancamentoMensal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FaturaController extends Controller
 {
@@ -25,11 +27,33 @@ class FaturaController extends Controller
     {
         $fatura = new LancamentoMensal();
 
-        $clientes = Cliente::pluck('nome', 'id')->all();
+        $fatura->contratos = new Contrato();
+
+        $fatura->contratos->clientes = new Cliente();
+
+//        $clientes = Cliente::pluck('nome', 'id')->all();
 
         $contas = Conta::pluck('tipoConta', 'id')->all();
 
-        return view('fatura.create', compact('fatura','clientes','contas'));
+//        $contratos = Contrato::query()->get('id','cliente_id');
+
+        //$contratos = Contrato::pluck('id',' CLIENTE ' + id)->all();
+
+//        $contrato->clientes->nome  / {{$contrato->aluguels->numeroAluguel}} ,$fatura->contratos->id
+
+        $contratos = Contrato::
+            select(
+            DB::raw("CONCAT('CLIENTE ',clientes.nome, ' ALUGUEL :', aluguels.numeroAluguel, ' CONTRATO ',
+             contratos.id , ' ',contratos.dataInicioContrato , ' - ',contratos.dataFimContrato) as nomeF, contratos.id"))
+            ->join("aluguels","aluguels.id","=","aluguel_id")
+            ->join("clientes","clientes.id","=","cliente_id")
+            ->pluck('nomeF','id')
+            ->all();
+
+
+        //return $contratos;
+
+        return view('fatura.create', compact('fatura','contratos','contas'));
     }
 
     public function edit(LancamentoMensal $lancamentoMensal)
@@ -40,6 +64,8 @@ class FaturaController extends Controller
     public function store(FaturaRequest $request)
     {
         $lancamento = new LancamentoMensal();
+
+        $pequisaLancamentoAnterior = LancamentoMensal::query()->where('');
 
         $lancamentoRequest = $lancamento->registerLoc($request->all());
 
