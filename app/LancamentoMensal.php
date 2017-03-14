@@ -30,7 +30,7 @@ class LancamentoMensal extends Model
     public function conta_lancamentos()
     {
 
-        return $this->hasMany(ContaLancamento::class);
+        return $this->hasMany('App\ContaLancamento','id','lancamento_id');
 
     }
 

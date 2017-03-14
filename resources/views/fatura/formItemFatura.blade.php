@@ -131,8 +131,10 @@
                                 {!! Form::text('quantidadeLeitura',  $item->quantidadeLeitura, ['class' => 'form-control','ng-model' => 'quantidadeLeitura','ng-change' => 'calcular()'] ) !!}
                             </div>
                             <div class="form-group col-md-6">
-                                {!! Form::label('valor', 'Valor : ') !!}
-                                {!! Form::text('valor',  $item->valor, ['class' => 'form-control','ng-model' => 'valorTotal','disabled' => 'disabled'] ) !!}
+                                {!! Form::label('valorTotal', 'Valor : ') !!}
+                                {!! Form::text('valorTotal',  $item->valor, ['class' => 'form-control','ng-model' => 'valorTotal','disabled'] ) !!}
+                                {{ Form::hidden('valor', $fatura->id ,['ng-model' => 'valorTotal']) }}
+
                             </div>
                             {{ Form::hidden('idFatura', $fatura->id) }}
                     </div>
