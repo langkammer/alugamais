@@ -1,8 +1,9 @@
 'use strict';
-// require('./bootstrap');
+require('bootstrap-sass');
 
-// Declare app level module which depends on views, and components
-angular.module('alugamais',['ui.bootstrap'])
+angular.module('alugamais',
+    ['ui.bootstrap']
+)
 .controller('ClienteController', ['$scope',function($scope) {
 
     console.log("testado ");
@@ -18,6 +19,7 @@ angular.module('alugamais',['ui.bootstrap'])
 }])
 .controller('AluguelController', [function() {
 
+
     //
     // setTimeout(function(){
     // }, 3000);
@@ -26,39 +28,52 @@ angular.module('alugamais',['ui.bootstrap'])
 }])
 .controller('FaturaController', ['$scope','$http', function($scope,$http) {
 
-    $scope.calcularAluguel = function () {
+    // window.$ = window.jQuery = require('jquery');
 
-        console.log("calculando contrato");
+    $scope.contasRels = [];
 
-        if($scope.tipoContrato != 'mensal'){
-            $scope.valorTotal += ($scope.valorAluguelDiario * $scope.dias);
-        }
-        else{
-            $scope.valorTotal += $scope.valorAluguelMensal;
-        }
+    $scope.abrirModalItem = function () {
+        $('#modalAddFatura').modal('show');
+    };
 
+    $scope.fecharModal = function () {
 
-        console.log($scope.valorTotal);
+        console.log("teste");
+        $('#modalAddFatura').modal('hide');
+
+    };
+
+    $scope.calcular = function () {
+
+        $scope.valorCobradoPorUnidade = $scope.valor / $scope.qtdContaLeitura;
+
+        $scope.valorTotal = Math.round($scope.valorCobradoPorUnidade * $scope.quantidadeLeitura);
+    };
+
+    $scope.buscarConta = function () {
+
+        console.log("buscando conta",$scope.coId);
+
+        $http.get('/contas/getJson/'+$scope.coId).then(function (data) {
+            if(data.data.mensagem == "ok"){
+                $scope.valor = data.data.data.data.valor;
+                $scope.qtdContaLeitura = data.data.data.data.quantidadeMedicao;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
     };
 
     $scope.selecionaContrato = function () {
 
         console.log("contrato ", $scope.contrato)
 
-        $http.get('/contrato/getJson/'+$scope.contrato).then(function (data) {
-            console.log(data.data);
-            $scope.valorAluguelMensal = data.data.aluguels.valorAluguelMensal;
-            $scope.valorAluguelDiario = data.data.aluguels.valorAluguelDiario;
-            $scope.multaPorcentagemAtraso = data.data.aluguels.multaPorcentagemAtraso;
-            $scope.tipoContrato = data.data.tipoContrato;
 
-            $scope.calcularAluguel();
-            console.log();
-
-        }, function (err) {
-            console.log(err);
-        });
     };
+
+
+
 
 
     function dateDiferencaEmDias(dataIni, dataFim) {
@@ -69,6 +84,9 @@ angular.module('alugamais',['ui.bootstrap'])
         $scope.dias = Math.floor((utc2 - utc1) / ( 1000 * 60 * 60 * 24) );
     }
     $scope.dataRefAtual = new Date();
+
+
+
 
 
 

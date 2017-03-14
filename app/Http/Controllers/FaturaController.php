@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use App\Conta;
+use App\ContaLancamento;
 use App\Contrato;
+use App\Http\Requests\ContaLancamentoRequest;
 use App\Http\Requests\FaturaRequest;
 use App\LancamentoMensal;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class FaturaController extends Controller
@@ -16,11 +17,9 @@ class FaturaController extends Controller
     //
     public function index()
     {
-
         $faturas = LancamentoMensal::all();
 
         return view('fatura.index', compact('faturas'));
-
     }
 
     public function create()
@@ -30,16 +29,6 @@ class FaturaController extends Controller
         $fatura->contratos = new Contrato();
 
         $fatura->contratos->clientes = new Cliente();
-
-//        $clientes = Cliente::pluck('nome', 'id')->all();
-
-        $contas = Conta::pluck('tipoConta', 'id')->all();
-
-//        $contratos = Contrato::query()->get('id','cliente_id');
-
-        //$contratos = Contrato::pluck('id',' CLIENTE ' + id)->all();
-
-//        $contrato->clientes->nome  / {{$contrato->aluguels->numeroAluguel}} ,$fatura->contratos->id
 
         $contratos = Contrato::
             select(
@@ -53,7 +42,7 @@ class FaturaController extends Controller
 
         //return $contratos;
 
-        return view('fatura.create', compact('fatura','contratos','contas'));
+        return view('fatura.create', compact('fatura','contratos'));
     }
 
     public function edit(LancamentoMensal $lancamentoMensal)
@@ -63,21 +52,62 @@ class FaturaController extends Controller
 
     public function store(FaturaRequest $request)
     {
-        $lancamento = new LancamentoMensal();
+        $fatura = new LancamentoMensal();
 
-        $pequisaLancamentoAnterior = LancamentoMensal::query()->where('');
+        $lancamento = $fatura->lancarFatura($request->all());
 
-        $lancamentoRequest = $lancamento->registerLoc($request->all());
+        session()->flash('flash_message', 'Fatura Inicada com Sucesso!');
 
-        session()->flash('flash_message', 'Fatura cadastrado com Sucesso!');
 
-        return redirect('aluguel');
+        return redirect()->route('fatura.itemFatura', ['id' => $lancamento->id]);
+    }
+
+    public function itemFatura($id){
+
+        $item = new ContaLancamento();
+
+        $contas = Conta::all();
+
+        $tiposContas = ['luz' => "Luz",'agua' => "Agua",'outros' => "Outros"];
+
+        $fatura = LancamentoMensal::find($id);
+
+        $itensFatura = $fatura->conta_lancamentos();
+
+        return view('fatura.itemFatura', compact('fatura','itensFatura','contas','tiposContas','item'));
+
+
+    }
+
+    public function inserirItemFatura(ContaLancamentoRequest $request){
+
+        $fatura = LancamentoMensal::find($request->idFatura);
+
+        if($fatura!=null){
+            $lancamento = $fatura->lancarContaFatura($request->all(),$fatura);
+
+            session()->flash('flash_message', 'Item incluido!');
+
+            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+        }
+
+        else{
+            session()->flash('flash_message', 'Erro ao localizar fatura contate administrador!');
+            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+        }
+
+    }
+
+    public function finalizarFatura(){
+
+        return redirect('fatura');
     }
 
     public function show(LancamentoMensal $fatura)
     {
         return view('fatura.show', compact('aluguel'));
     }
+
 
     public function update(FaturaRequest $request, FaturaRequest $fatura)
     {
@@ -100,5 +130,11 @@ class FaturaController extends Controller
     public function deleteConfirm(LancamentoMensal $lancamentoMensal)
     {
         return view('fatura.deleteConfirm', compact('lancamentoMensal'));
+    }
+
+    public function lancarConta(FaturaRequest $fatura){
+
+        return $fatura;
+
     }
 }

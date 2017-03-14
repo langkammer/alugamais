@@ -15,7 +15,7 @@ class CreateContasTable extends Migration
     {
         Schema::create('contas', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('tipoConta',['luz','agua']);
+            $table->enum('tipoConta',['luz','agua','outros']);
             $table->string("nomeConta");
             $table->boolean("statusPagamento");
             $table->integer('quantidadeMedicao');

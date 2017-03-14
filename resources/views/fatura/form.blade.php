@@ -5,7 +5,7 @@
     </div>
     <div class="form-group col-md-12">
         {!! Form::label('contrato_id', 'Contrato / Cliente / Aluguel : ') !!}
-        {!! Form::select('contrato_id',  $contratos, $fatura->contratos->id,['class' => 'form-control', 'ng-model' => 'contrato', 'ng-change' => 'selecionaContrato()'] ) !!}
+        {!! Form::select('contrato_id',  $contratos, $fatura->contratos->id,['class' => 'form-control', 'ng-model' => 'contrato'] ) !!}
     </div>
     <div class="form-group col-md-2">
         {!! Form::label('mesRef', 'Me Referente : ') !!}
@@ -32,29 +32,6 @@
         {!! Form::label('dataVencimento', 'Data de Vencimento :') !!}
         {!! Form::date('dataVencimento', $fatura->dataVencimento, ['class' => 'form-control']) !!}
     </div>
-    <div class="form-group col-md-12">
-        <p>Apurações</p>
-    </div>
-    <div class="form-group col-md-12">
-        {!! Form::label('contrato_id', 'Conta : ') !!}
-        <p class="input-group">
-            {!! Form::select('conta',  $contas, $fatura->contratos->id,['class' => 'form-control', 'ng-model' => 'conta'] ) !!}
-            <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="addConta()"><i class="glyphicon glyphicon-plus-sign"></i></button>
-        </p>
-    </div>
-    <div class="form-group col-md-2">
-        {!! Form::label('quantidadeLeituraAgua', 'Leitura Agua :') !!}
-        {!! Form::number('quantidadeLeituraAgua', $fatura->quantidadeLeituraAgua, ['class' => 'form-control','ng-model' => 'leituraAgua']) !!}
-        {!! Form::label('quantidadeLeituraLuz', 'Leitura Luz :') !!}
-        {!! Form::number('quantidadeLeituraLuz', $fatura->quantidadeLeituraLuz, ['class' => 'form-control','ng-model' => 'leituraLuz']) !!}
-    </div>
-    <div class="form-group col-md-2">
-        <p> Valor Agua : R$ @{leituraAgua}</p>
-        <p> Valor Luz :  R$ @{leituraLuz}</p>
-        <p> Valor Total : R$ @{valorAluguelMensal}</p>
-    </div>
-
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
         <a href="{{ route('fatura.index') }}" class="btn btn-info" role="button">Voltar</a>

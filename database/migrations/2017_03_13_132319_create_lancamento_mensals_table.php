@@ -15,22 +15,11 @@ class CreateLancamentoMensalsTable extends Migration
     {
         Schema::create('lancamento_mensals', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("mesRef");
-
-            $table->integer('contas_id')->unsigned()->index()->default(1);
-            $table->foreign('contas_id')
-                ->references('id')
-                ->on('contas');
-
+            $table->string("mesRef");
             $table->integer('contrato_id')->unsigned()->index()->default(1);
             $table->foreign('contrato_id')
                 ->references('id')
                 ->on('contratos');
-
-            $table->integer("quantidadeLeituraAgua");
-            $table->integer("quantidadeLeituraLuz");
-            $table->decimal("valorAgua", 10, 2);
-            $table->decimal("valorLuz", 10, 2);
             $table->decimal("valorTotal", 10, 2);
             $table->date("dataEmissao");
             $table->date("periodoFaturaIni");

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FaturaRequest extends FormRequest
+class ContaLancamentoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +23,11 @@ class FaturaRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
-            'mesRef' => 'required',
-            'dataEmissao' => 'required',
-            'periodoFaturaIni' => 'required',
-            'periodoFaturaFinal' => 'required',
-            'dataVencimento' => 'required',
-            'valorTotal' => 'required',
-            'contas_id' => 'required',
-            'contrato_id' => 'required'
+            'tipoConta' => 'required',
+            'conta_id' => 'required',
+            'quantidadeLeitura' => 'required',
+            'valor' => 'required'
         ];
     }
 }

@@ -31,6 +31,9 @@ class Aluguel extends Model
             $aluguel->status = 'aguardoando_locacao';
         }
 
+
+
+
         return  $aluguel->save();
 
     }

@@ -24,7 +24,12 @@ class AluguelRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'numeroAluguel' => 'required|min:3',
+            'descricaoAluguel' => 'required',
+            'valorAluguelMensal' => 'required',
+            'valorAluguelDiario' => 'required',
+            'multaPorcentagemAtraso' => 'required',
+            'status' => 'required'
         ];
     }
 }

@@ -21,7 +21,7 @@
         @foreach ($faturas as $fatura)
             <tr>
                 <td>{!! $fatura->id !!}</td>
-                <td>{!! $fatura->contratos()->clientes()->nome !!}</td>
+                <td>{!! $fatura->contratos->clientes->nome !!}</td>
                 <td>{!! $fatura->valorTotal !!}</td>
                 <td>{!! $fatura->statusPagamento !!}%</td>
                 <td>

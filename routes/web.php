@@ -33,5 +33,10 @@ Route::get('aluguel/confirm/{aluguel}', ['uses' => 'AluguelController@deleteConf
 Route::get('contrato/confirm/{contrato}', ['uses' => 'ContratoController@deleteConfirm', 'as' => 'contrato.confirmDelete']);
 Route::get('fatura/confirm/{fatura}', ['uses' => 'FaturaController@deleteConfirm', 'as' => 'fatura.confirmDelete']);
 Route::get('contrato/getJson/{contrato}', ['uses' => 'ContratoController@showJson', 'as' => 'contrato.showJson']);
+Route::post('fatura/lancarConta', ['uses' => 'FaturaController@lancarConta', 'as' => 'fatura.lancarConta']);
+Route::get('fatura/itemFatura/{id}', ['uses' => 'FaturaController@itemFatura', 'as' => 'fatura.itemFatura']);
+Route::post('fatura/finalizarFatura', ['uses' => 'FaturaController@finalizarFatura', 'as' => 'fatura.finalizarFatura']);
+Route::post('fatura/inserirItemFatura', ['uses' => 'FaturaController@inserirItemFatura', 'as' => 'fatura.inserirItemFatura']);
+Route::get('contas/getJson/{id}', ['uses' => 'ContasController@showJson', 'as' => 'contas.showJson']);
 
 

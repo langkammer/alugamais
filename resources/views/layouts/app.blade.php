@@ -14,7 +14,7 @@
     <!-- bower:css -->
     <!-- endbower -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -96,7 +96,6 @@
         $("#multaPorcentagemAtraso").maskMoney();
         $("#valorAluguelDiario").maskMoney();
         $("#renda").maskMoney();
-
     </script>
 </body>
 </html>

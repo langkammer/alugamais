@@ -24,6 +24,22 @@ class ContasController extends Controller
         return $conta;
     }
 
+    public function showJson($id)
+    {
+
+        if($id == '----')
+            return ['data' => ['data' => null],'mensagem' => "sem dados"];
+
+        $conta = Conta::find($id);
+
+        if($conta!=null)
+            return ['data' => ['data' => $conta], 'mensagem' => "ok"];
+        else
+            return ['data' => ['data' => null],'mensagem' => "sem dados"];
+
+        return ['data' => ['data' => $conta], 'mensagem' => "ok"];
+    }
+
     public function update(Request $request, Conta $conta)
     {
         $conta->update($conta->all());

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class LancamentoMensal extends Model
@@ -14,10 +15,6 @@ class LancamentoMensal extends Model
         'periodoFaturaIni',
         'periodoFaturaFinal',
         'dataVencimento',
-        'quantidadeLeituraAgua',
-        'quantidadeLeituraLuz',
-        'valorAgua',
-        'valorLuz',
         'valorTotal',
         'statusPagamento',
         'contas_id',
@@ -27,26 +24,52 @@ class LancamentoMensal extends Model
 
     public function contratos()
     {
-        return $this->hasOne('App\Contrato');
+        return $this->hasOne('App\Contrato','id','contrato_id');
     }
 
-
-    public function contas()
+    public function conta_lancamentos()
     {
-        return $this->hasMany('App\Conta');
+
+        return $this->hasMany(ContaLancamento::class);
+
+    }
+
+    public function lancarContaFatura(array $attributes = [],LancamentoMensal $fatura){
+
+        $contaLanc = new ContaLancamento();
+
+        $contaLanc = new static($attributes);
+
+        $contaLanc->lancamento_id = $fatura->id;
+
+        $contaLanc->save();
+
+        $fatura->valorTotal += $contaLanc->valor;
+
+        return $contaLanc;
     }
 
     public function lancarFatura(array $attributes = []){
 
-        $aluguel = new LancamentoMensal();
-        $aluguel = new static($attributes);
+        $fatura = new LancamentoMensal();
 
+        $fatura = new static($attributes);
 
-        if($aluguel->id==null){
-            $aluguel->status = 'aguardoando_locacao';
-        }
+        $contrato = Contrato::find($fatura->contrato_id);
 
-        return  $aluguel->save();
+        $date1 = Carbon::createFromFormat('Y-m-d', $fatura->periodoFaturaIni);
+        $date2 = Carbon::createFromFormat('Y-m-d', $fatura->periodoFaturaFinal);
+
+        $intervalo = $date2->diffInDays($date1);
+
+        if($contrato->tipoContrato=='mensal')
+            $fatura->valorTotal = $contrato->aluguels->valorAluguelMensal;
+        else
+            $fatura->valorTotal = $contrato->aluguels->valorAluguelDiario * $intervalo;
+
+        $fatura->save();
+
+        return  $fatura;
 
     }
 }

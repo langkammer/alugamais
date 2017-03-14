@@ -20,4 +20,5 @@ class Conta extends Model
         'mesRef',
         'porcentagemMultaAtraso'
     ];
+
 }
