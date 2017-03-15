@@ -199,7 +199,7 @@ class FaturaController extends Controller
 
         $fatura = LancamentoMensal::find($request->idFatura);
 
-        $pdf = PDF::loadView('pdf.fatura');
+        $pdf = PDF::loadView('pdf.fatura',$fatura);
 
         return $pdf->download('fatura.pdf');
     }
