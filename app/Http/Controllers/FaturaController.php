@@ -9,6 +9,7 @@ use App\Contrato;
 use App\Http\Requests\ContaLancamentoRequest;
 use App\Http\Requests\FaturaRequest;
 use App\LancamentoMensal;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class FaturaController extends Controller
@@ -50,7 +51,7 @@ class FaturaController extends Controller
         return view('fatura.edit', compact('lancamentoMensal'));
     }
 
-    public function store(FaturaRequest $request)
+    public function store(Request $request)
     {
         $fatura = new LancamentoMensal();
 
@@ -72,7 +73,7 @@ class FaturaController extends Controller
 
         $fatura = LancamentoMensal::find($id);
 
-        $itensFatura = $fatura->conta_lancamentos();
+        $itensFatura = $fatura->conta_lancamentos;
 
         return view('fatura.itemFatura', compact('fatura','itensFatura','contas','tiposContas','item'));
 
@@ -83,8 +84,18 @@ class FaturaController extends Controller
 
         $fatura = LancamentoMensal::find($request->idFatura);
 
+        $item = new ContaLancamento();
+
+        $conta = new ContaLancamento();
+
+        $itensFatura = $fatura->conta_lancamentos();
+
+        $contas = Conta::all();
+
+        $tiposContas = ['luz' => "Luz",'agua' => "Agua",'outros' => "Outros"];
+
         if($fatura!=null){
-            $lancamento = $fatura->lancarContaFatura($request->all(),$fatura);
+            $lancamento = $conta->lancarContaFatura($request->all(),$fatura);
 
             session()->flash('flash_message', 'Item incluido!');
 
@@ -93,7 +104,8 @@ class FaturaController extends Controller
 
         else{
             session()->flash('flash_message', 'Erro ao localizar fatura contate administrador!');
-            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+            return view('fatura.itemFatura',['id' => $request->idFatura], compact('fatura','itensFatura','contas','tiposContas','item'));
+
         }
 
     }

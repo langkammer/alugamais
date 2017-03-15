@@ -13,12 +13,27 @@ class ContaLancamento extends Model
         'conta_id',
         'quantidadeLeitura',
         'valor',
-        'lancamento_id'
+        'lancamento_mensal_id'
     ];
 
     public function contas()
     {
         return $this->hasOne('App\Conta','id','conta_id');
+    }
+
+    public function lancarContaFatura(array $attributes = [],LancamentoMensal $fatura){
+
+        $contaLanc = new ContaLancamento();
+
+        $contaLanc = new static($attributes);
+
+        $contaLanc->lancamento_mensal_id = $fatura->id;
+
+        $contaLanc->save();
+
+        $fatura->valorTotal += $contaLanc->valor;
+
+        return $contaLanc;
     }
 
     public function lancarFatura(array $attributes = []){

@@ -28,8 +28,7 @@ class AluguelRequest extends FormRequest
             'descricaoAluguel' => 'required',
             'valorAluguelMensal' => 'required',
             'valorAluguelDiario' => 'required',
-            'multaPorcentagemAtraso' => 'required',
-            'status' => 'required'
+            'multaPorcentagemAtraso' => 'required'
         ];
     }
 }

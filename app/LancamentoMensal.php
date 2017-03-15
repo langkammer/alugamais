@@ -17,7 +17,6 @@ class LancamentoMensal extends Model
         'dataVencimento',
         'valorTotal',
         'statusPagamento',
-        'contas_id',
         'contrato_id'
 
     ];
@@ -30,23 +29,8 @@ class LancamentoMensal extends Model
     public function conta_lancamentos()
     {
 
-        return $this->hasMany('App\ContaLancamento','id','lancamento_id');
+        return $this->hasMany('App\ContaLancamento');
 
-    }
-
-    public function lancarContaFatura(array $attributes = [],LancamentoMensal $fatura){
-
-        $contaLanc = new ContaLancamento();
-
-        $contaLanc = new static($attributes);
-
-        $contaLanc->lancamento_id = $fatura->id;
-
-        $contaLanc->save();
-
-        $fatura->valorTotal += $contaLanc->valor;
-
-        return $contaLanc;
     }
 
     public function lancarFatura(array $attributes = []){
