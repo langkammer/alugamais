@@ -18,7 +18,8 @@ class Conta extends Model
         'dataIniLeitura',
         'dataFimLeitura',
         'mesRef',
-        'porcentagemMultaAtraso'
+        'porcentagemMultaAtraso',
+        'valorUnitario'
     ];
 
 }

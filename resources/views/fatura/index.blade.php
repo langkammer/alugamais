@@ -12,9 +12,11 @@
         <tr>
             <th>Numero</th>
             <th>Cliente</th>
-            <th>Valor Fatura</th>
-            <th>Multa</th>
+            <th>Aluguel</th>
+            <th>Valor</th>
             <th>Status</th>
+            <th></th>
+            <th></th>
             <th></th>
 
         </tr>
@@ -22,8 +24,8 @@
             <tr>
                 <td>{!! $fatura->id !!}</td>
                 <td>{!! $fatura->contratos->clientes->nome !!}</td>
-                <td>{!! $fatura->valorTotal !!}</td>
-                <td>{!! $fatura->statusPagamento !!}%</td>
+                <td>{!! $fatura->contratos->aluguels->numeroAluguel !!}</td>
+                <td>R$ {!! $fatura->valorTotal !!}</td>
                 <td>
                 @if($fatura->statusPagamento=='pago_atrasado')
                     Pagado Atrasado
@@ -33,22 +35,24 @@
                 @endif
                 @if($fatura->statusPagamento=='aguardando_pagamento')
                     Aguardando Pagamento
+                @else
+                        Aguardando Pagamento
                 @endif
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.edit', $fatura->id]]) !!}
-                    <button type="submit" class="btn btn-success">Atualizar</button>
+                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.itemFatura', $fatura->id]]) !!}
+                    <button type="submit" class="btn btn-primary">Ver Fatura</button>
                     {!! Form::close() !!}
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.show', $fatura->id]]) !!}
-                    <button type="submit" class="btn btn-primary">Ver</button>
-                    {!! Form::close() !!}
+                    @if($fatura->statusBoleto=='boleto_gerado')
+                        <a type="submit" target="_blank" href="https://pagseguro.uol.com.br/v2/checkout/payment.html?code={!! $fatura->codigoBoletoPagseguro !!}" class="btn btn-success">Gerar Boleto</a>
+                    @else
+                        <a class="btn btn-success" disabled>Gerar Boleto</a>
+                    @endif
                 </td>
                 <td>
-                    {!! Form::open(['method' => 'GET', 'route' => ['fatura.confirmDelete', $fatura->id]]) !!}
-                    <button type="submit" class="btn btn-danger">Deletar</button>
-                    {!! Form::close() !!}
+                    <button type="submit" class="btn btn-danger">Baixar Pagamento</button>
                 </td>
             </tr>
         @endforeach

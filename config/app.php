@@ -177,6 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        laravel\pagseguro\Platform\Laravel5\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -229,6 +231,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
+        'PagSeguro' => laravel\pagseguro\Platform\Laravel5\PagSeguro::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
     ],
 
 ];

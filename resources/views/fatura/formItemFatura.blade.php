@@ -60,20 +60,33 @@
             <tr>
                 <th>Lancamento</th>
                 <th>Quantidade</th>
-                <th>Valor R$</th>
+                <th>Valor</th>
+                @if($fatura->statusFatura=='fatura_aberta')
                 <th></th>
-
+                @endif
             </tr>
             @foreach ($itensFatura as $item)
                 <tr>
-                    <td>{!! $item->tipoConta !!}</td>
+                    <td>
+                        @if($item->contas->tipoConta == 'luz')
+                            Luz
+                        @elseif($item->contas->tipoConta == 'agua')
+                            Agua
+                        @endif
+                    </td>
                     <td>{!! $item->quantidadeLeitura !!}</td>
-                    <td>{!! $item->valor !!}</td>
-                    <td></td>
+                    <td>R$ {!! $item->valor !!}</td>
+                    @if($fatura->statusFatura=='fatura_aberta')
+                    <td class="pull-right">
+                        <button id="btModal" name="btModal" type="button" ng-click="abriModalEcluir({!! $item->id !!})" class="btn btn-danger">Excluir Item</button>
+                    </td>
+                    @endif
                 </tr>
             @endforeach
         </table>
-        <button id="btModal" name="btModal" type="button" ng-click="abrirModalItem()" class="btn btn-primary">Incluir Item</button>
+        @if($fatura->statusFatura=='fatura_aberta')
+            <button id="btModal" name="btModal" type="button" ng-click="abrirModalItem()" class="btn btn-primary">Incluir Item</button>
+        @endif
     </div>
 
     <div class="col-md-12">
@@ -87,11 +100,21 @@
 
 
     <div class="form-group col-md-12">
-        {!! Form::open(['route' => 'fatura.store', 'data-remote' => $remote, 'id' => 'aluguel-form']) !!}
-        {!! Form::submit($fecharFatura, ['class' => 'btn btn-success']) !!}
-        {!! Form::close() !!}
+        @if($fatura->statusFatura=='fatura_aberta')
+            {!! Form::open(['route' => 'fatura.finalizarFatura', 'data-remote' => $remote, 'id' => 'aluguel-form']) !!}
+                {{ Form::hidden('idFatura', $fatura->id) }}
+            {!! Form::submit($fecharFatura, ['class' => 'btn btn-success']) !!}
+            <a href="{{ route('fatura.index') }}" class="btn btn-info" role="button">Voltar</a>
 
-        <a href="{{ route('fatura.index') }}" class="btn btn-info" role="button">Voltar</a>
+            {!! Form::close() !!}
+        @else
+            {!! Form::open(['route' => 'fatura.gerarPdfFatura', 'data-remote' => $remote, 'id' => 'aluguel-form']) !!}
+            {{ Form::hidden('idFatura', $fatura->id) }}
+                <button type="submit" class="btn btn-success" >Gerar Pdf</button>
+            <a href="{{ route('fatura.index') }}" class="btn btn-info" role="button">Voltar</a>
+
+            {!! Form::close() !!}
+        @endif
     </div>
 
     <!-- Modal -->
@@ -133,10 +156,10 @@
                             <div class="form-group col-md-6">
                                 {!! Form::label('valorTotal', 'Valor : ') !!}
                                 {!! Form::text('valorTotal',  $item->valor, ['class' => 'form-control','ng-model' => 'valorTotal','disabled'] ) !!}
-                                {{ Form::hidden('valor', $fatura->id ,['ng-model' => 'valorTotal']) }}
-
+                                <input type="hidden" value="@{valorTotal}" name="valor" id="valor">
+                                <input type="hidden" value="@{valorUnitario}" name="valorUnitario" id="valorUnitario">
                             </div>
-                            {{ Form::hidden('idFatura', $fatura->id) }}
+                        {{ Form::hidden('idFatura', $fatura->id) }}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -145,6 +168,32 @@
                 </div>
             </div>
         {!! Form::close() !!}
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalRemoveConta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog" role="document">
+            {!! Form::open(['route' => 'fatura.excluirContaFatura']) !!}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ecluir Conta</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <p>Tem certeza ecluir a conta ?</p>
+                            <input type="hidden" value="@{id_contaLancamento}" name="idConta" id="idConta">
+                            {{ Form::hidden('idFatura', $fatura->id) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger" >Sim</button>
+                </div>
+            </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>

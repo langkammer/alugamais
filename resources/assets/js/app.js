@@ -37,17 +37,26 @@ angular.module('alugamais',
     };
 
     $scope.fecharModal = function () {
-
         console.log("teste");
         $('#modalAddFatura').modal('hide');
 
     };
 
+    $scope.abriModalEcluir = function ($id) {
+        $scope.id_contaLancamento = $id;
+        $('#modalRemoveConta').modal('show');
+    };
+
+    $scope.fecharModalEcluir = function () {
+
+        console.log("teste");
+        $('#modalRemoveConta').modal('hide');
+
+    };
+
     $scope.calcular = function () {
 
-        $scope.valorCobradoPorUnidade = $scope.valor / $scope.qtdContaLeitura;
-
-        $scope.valorTotal = Math.round($scope.valorCobradoPorUnidade * $scope.quantidadeLeitura);
+        $scope.valorTotal = round($scope.valorUnitario * $scope.quantidadeLeitura,3);
     };
 
     $scope.buscarConta = function () {
@@ -58,6 +67,8 @@ angular.module('alugamais',
             if(data.data.mensagem == "ok"){
                 $scope.valor = data.data.data.data.valor;
                 $scope.qtdContaLeitura = data.data.data.data.quantidadeMedicao;
+
+                $scope.valorUnitario = data.data.data.data.valorUnitario;
             }
 
         }, function (err) {
@@ -74,7 +85,24 @@ angular.module('alugamais',
 
 
 
+    function round(value, exp) {
+        if (typeof exp === 'undefined' || +exp === 0)
+            return Math.round(value);
 
+        value = +value;
+        exp = +exp;
+
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+            return NaN;
+
+        // Shift
+        value = value.toString().split('e');
+        value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    }
 
     function dateDiferencaEmDias(dataIni, dataFim) {
         // Descartando timezone e horário de verão

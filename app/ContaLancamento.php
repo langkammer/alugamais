@@ -13,6 +13,7 @@ class ContaLancamento extends Model
         'conta_id',
         'quantidadeLeitura',
         'valor',
+        'valorUnitario',
         'lancamento_mensal_id'
     ];
 
@@ -33,6 +34,8 @@ class ContaLancamento extends Model
 
         $fatura->valorTotal += $contaLanc->valor;
 
+        $fatura->save();
+
         return $contaLanc;
     }
 
@@ -44,5 +47,15 @@ class ContaLancamento extends Model
 
         return  $contaLancamento->save();;
 
+    }
+
+    public function contasEmFatura($idFatura,$contaId){
+
+        $conta =  ContaLancamento::query()->where('conta_id','=', $contaId)->where('lancamento_mensal_id','=',$idFatura)->first();
+
+        if($conta)
+            return true;
+        else
+            return false;
     }
 }

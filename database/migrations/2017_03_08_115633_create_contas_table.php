@@ -24,6 +24,7 @@ class CreateContasTable extends Migration
             $table->date("dataFimLeitura");
             $table->string("mesRef");
             $table->float("porcentagemMultaAtraso");
+            $table->decimal("valorUnitario", 10, 2);
             $table->timestamps();
         });
     }

@@ -38,5 +38,17 @@ Route::get('fatura/itemFatura/{id}', ['uses' => 'FaturaController@itemFatura', '
 Route::post('fatura/finalizarFatura', ['uses' => 'FaturaController@finalizarFatura', 'as' => 'fatura.finalizarFatura']);
 Route::post('fatura/inserirItemFatura', ['uses' => 'FaturaController@inserirItemFatura', 'as' => 'fatura.inserirItemFatura']);
 Route::get('contas/getJson/{id}', ['uses' => 'ContasController@showJson', 'as' => 'contas.showJson']);
+Route::post('fatura/excluirContaFatura', ['uses' => 'FaturaController@excluirContaFatura', 'as' => 'fatura.excluirContaFatura']);
+Route::get('fatura/gerarBoleto/{id}', ['uses' => 'FaturaController@gerarBoleto', 'as' => 'fatura.gerarBoleto']);
+Route::post('fatura/gerarPdfFatura', ['uses' => 'FaturaController@gerarPdfFatura', 'as' => 'fatura.gerarPdfFatura']);
 
+//Route::get('pagseguro.redirect');
+
+Route::get('fatura/boleto', ['uses' => 'FaturaController@boleto', 'as' => 'fatura.boleto']);
+
+
+Route::post('/pagseguro/notification', [
+    'uses' => '\laravel\pagseguro\Platform\Laravel5\NotificationController@notification',
+    'as' => 'pagseguro.notification',
+]);
 

@@ -9,6 +9,7 @@ use App\Contrato;
 use App\Http\Requests\ContaLancamentoRequest;
 use App\Http\Requests\FaturaRequest;
 use App\LancamentoMensal;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -67,13 +68,14 @@ class FaturaController extends Controller
 
         $item = new ContaLancamento();
 
-        $contas = Conta::all();
-
         $tiposContas = ['luz' => "Luz",'agua' => "Agua",'outros' => "Outros"];
 
         $fatura = LancamentoMensal::find($id);
 
         $itensFatura = $fatura->conta_lancamentos;
+
+        $contas = Conta::all();
+
 
         return view('fatura.itemFatura', compact('fatura','itensFatura','contas','tiposContas','item'));
 
@@ -95,11 +97,19 @@ class FaturaController extends Controller
         $tiposContas = ['luz' => "Luz",'agua' => "Agua",'outros' => "Outros"];
 
         if($fatura!=null){
-            $lancamento = $conta->lancarContaFatura($request->all(),$fatura);
 
-            session()->flash('flash_message', 'Item incluido!');
+            if($item->contasEmFatura($fatura->id,$request->conta_id)){
+                session()->flash('flash_message_err', 'Conta já includa na fatura!');
+                return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+            }
+            else{
+                $lancamento = $conta->lancarContaFatura($request->all(),$fatura);
 
-            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+                session()->flash('flash_message', 'Item incluido!');
+
+                return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+            }
+
         }
 
         else{
@@ -110,10 +120,24 @@ class FaturaController extends Controller
 
     }
 
-    public function finalizarFatura(){
+    public function finalizarFatura(Request $request){
+
+        $fatura = new LancamentoMensal();
+
+        $fatura->fecharFatura(LancamentoMensal::find($request->idFatura));
 
         return redirect('fatura');
     }
+
+    public function gerarBoleto(Request $request){
+
+        $fatura = new LancamentoMensal();
+
+        $fatura->fecharFatura(LancamentoMensal::find($request->idFatura));
+
+        return redirect('fatura');
+    }
+
 
     public function show(LancamentoMensal $fatura)
     {
@@ -128,6 +152,27 @@ class FaturaController extends Controller
         session()->flash('flash_message', 'Fatura Atualizado com Sucesso');
 
         return redirect('fatura');
+    }
+
+    public function excluirContaFatura(Request $request)
+    {
+        if($request->idConta){
+
+            $fatura = new LancamentoMensal();
+
+            $fatura->detarContaFatura($request->idConta,$request->idFatura);
+
+            session()->flash('flash_message', 'Conta deletada com Sucesso!');
+
+            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+        }
+
+        else{
+            session()->flash('flash_message_err', 'Problema em deletar conta!');
+
+            return redirect()->route('fatura.itemFatura', ['id' => $request->idFatura]);
+        }
+
     }
 
     public function destroy(LancamentoMensal $lancamentoMensal)
@@ -148,5 +193,18 @@ class FaturaController extends Controller
 
         return $fatura;
 
+    }
+
+    public  function  gerarPdfFatura(Request $request){
+
+        $fatura = LancamentoMensal::find($request->idFatura);
+
+        $pdf = PDF::loadView('pdf.fatura');
+
+        return $pdf->download('fatura.pdf');
+    }
+    public function boleto(){
+
+        return view('fatura.boleto', compact('faturas'));
     }
 }

@@ -26,6 +26,9 @@ class CreateLancamentoMensalsTable extends Migration
             $table->date("periodoFaturaFinal");
             $table->date("dataVencimento");
             $table->enum('statusPagamento',['pago_atrasado','pago','aguardando_pagamento'])->nullable();
+            $table->enum('statusFatura',['fatura_fechada','fatura_aberta'])->nullable();
+            $table->string("codigoBoletoPagseguro");
+            $table->enum('statusBoleto',['boleto_gerado','boleto_naogerado']);
             $table->timestamps();
         });
     }

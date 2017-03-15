@@ -25,6 +25,7 @@ class CreateContaLancamentosTable extends Migration
                 ->references('id')
                 ->on('lancamento_mensals');
             $table->integer('quantidadeLeitura');
+            $table->decimal('valorUnitario', 10, 2);
             $table->decimal('valor', 10, 2);
             $table->timestamps();
         });
