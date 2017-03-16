@@ -11,10 +11,12 @@ class ContasController extends Controller
     //
     public function index()
     {
-        return Conta::all();
+        $contas = Conta::all();
+
+        return view('conta.index', compact('contas'));
     }
 
-    public function store(Request $request)
+    public function store(Conta $request)
     {
         return Conta::create($request->all());
     }
