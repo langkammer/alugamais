@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! Form::model($cliente, ['method' => 'PATCH', 'route' => ['cliente.update', $cliente->id], 'id' => 'clientes-form']) !!}
-    @include('clientes.form', ['salvar' => 'Atualizar Cliente'])
+    {!! Form::model($contrato, ['method' => 'PATCH', 'route' => ['contrato.update', $contrato->id], 'id' => 'contrato-form']) !!}
+    @include('contrato.form', ['salvar' => 'Atualizar Contrato'])
     {!! Form::close() !!}
 @endsection

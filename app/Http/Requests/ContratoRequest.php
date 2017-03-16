@@ -24,8 +24,6 @@ class ContratoRequest extends FormRequest
     public function rules()
     {
         return [
-            'cliente_id' => 'required',
-            'aluguel_id' => 'required',
             'dataInicioContrato' => 'required',
             'dataFimContrato' => 'required',
             'tipoContrato' => 'required'

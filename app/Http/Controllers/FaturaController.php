@@ -17,6 +17,11 @@ class FaturaController extends Controller
 {
 
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $faturas = LancamentoMensal::all();
@@ -74,7 +79,9 @@ class FaturaController extends Controller
 
         $itensFatura = $fatura->conta_lancamentos;
 
-        $contas = Conta::all();
+        $contas = DB::table('contas')
+            ->where('mesRef', '=', $fatura->mesRef)
+            ->get();
 
 
         return view('fatura.itemFatura', compact('fatura','itensFatura','contas','tiposContas','item'));
@@ -199,7 +206,7 @@ class FaturaController extends Controller
 
         $fatura = LancamentoMensal::find($request->idFatura);
 
-        $pdf = PDF::loadView('pdf.fatura',$fatura);
+        $pdf = PDF::loadView('pdf.fatura',array('fatura' => $fatura));
 
         return $pdf->download('fatura.pdf');
     }

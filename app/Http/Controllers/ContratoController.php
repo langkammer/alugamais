@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Aluguel;
+use App\Cliente;
 use App\Contrato;
 use App\Http\Requests\ContratoRequest;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Object_;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ContratoController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
 
-        $contrato = Contrato::all();
+        $contratos = Contrato::all();
 
-        return view('contrato.index', compact('contrato'));
+        return view('contrato.index', compact('contratos'));
 
     }
 
@@ -27,14 +33,23 @@ class ContratoController extends Controller
 
         $clientes = Cliente::pluck('nome', 'id')->all();
 
-        $alugueis = Aluguel::pluck('numero', 'id')->all();
+
+        $alugueis = DB::table('aluguels')
+            ->where('status', '<>', 'alugado')
+            ->get()->pluck('numeroAluguel','id');
+
 
         return view('contrato.create', compact('contrato','alugueis','clientes'));
     }
 
     public function edit(Contrato $contrato)
     {
-        return view('contrato.edit', compact('contrato'));
+
+        $clientes = Cliente::pluck('nome', 'id')->all();
+
+        $alugueis =  Aluguel::pluck('numeroAluguel', 'id')->all();
+
+        return view('contrato.edit',  compact('contrato','alugueis','clientes'));
     }
 
     public function store(ContratoRequest $request)
@@ -84,7 +99,18 @@ class ContratoController extends Controller
 
         return redirect('contrato');
     }
+    public function imprimirContrato(Contrato $contrato)
+    {
+        $ini = Carbon::parse($contrato->dataInicioContrato);
 
+        $fim = Carbon::parse($contrato->dataFimContrato);
+
+        $meses =  $ini->diffInMonths($fim);
+
+        $pdf = PDF::loadView('pdf.contrato',array('contrato' => $contrato,'meses'=>$meses));
+
+        return $pdf->download('CONTRATO.pdf');
+    }
     public function deleteConfirm(Contrato $contrato)
     {
         return view('contrato.deleteConfirm', compact('contrato'));

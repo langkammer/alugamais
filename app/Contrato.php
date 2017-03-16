@@ -26,4 +26,24 @@ class Contrato extends Model
     {
         return $this->hasOne('App\Cliente','id','cliente_id');
     }
+
+    public function registerLoc(array $attributes = []){
+
+        $aluguel = new Aluguel();
+
+        $contrato = new Contrato();
+
+        $contrato = new static($attributes);
+
+        $contrato->save();
+
+        if($contrato->id!=null){
+            $aluguel = Aluguel::find($contrato->aluguel_id);
+            $aluguel->status = 'alugado';
+            $aluguel->save();
+        }
+
+        return  $aluguel->save();
+
+    }
 }

@@ -25,7 +25,7 @@ class ContaRequest extends FormRequest
     {
         return [
             //
-            'nomeConta' => 'required|min:3',
+            'nomeConta' => 'required',
             'tipoConta' => 'required',
             'valor' => 'required',
             'mesRef' => 'required',

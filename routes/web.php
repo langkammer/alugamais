@@ -41,6 +41,8 @@ Route::get('contas/getJson/{id}', ['uses' => 'ContasController@showJson', 'as' =
 Route::post('fatura/excluirContaFatura', ['uses' => 'FaturaController@excluirContaFatura', 'as' => 'fatura.excluirContaFatura']);
 Route::get('fatura/gerarBoleto/{id}', ['uses' => 'FaturaController@gerarBoleto', 'as' => 'fatura.gerarBoleto']);
 Route::post('fatura/gerarPdfFatura', ['uses' => 'FaturaController@gerarPdfFatura', 'as' => 'fatura.gerarPdfFatura']);
+Route::get('contas/confirm/{conta}', ['uses' => 'ContasController@deleteConfirm', 'as' => 'contas.confirmDelete']);
+Route::get('contrato/imprimirContrato/{contrato}', ['uses' => 'ContratoController@imprimirContrato', 'as' => 'contrato.imprimirContrato']);
 
 //Route::get('pagseguro.redirect');
 

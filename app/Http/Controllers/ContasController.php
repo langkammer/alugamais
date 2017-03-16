@@ -10,6 +10,11 @@ class ContasController extends Controller
 {
     //
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
 
@@ -35,7 +40,7 @@ class ContasController extends Controller
     {
         $conta = new Conta();
 
-        $aluguelRequest = $conta->save($request->all());
+        $contaRequest = Conta::create($request->all());
 
         session()->flash('flash_message', 'Conta cadastrado com Sucesso!');
 
@@ -65,7 +70,7 @@ class ContasController extends Controller
         return redirect('contas');
     }
 
-    public function deleteConfirm(Conta $aluguel)
+    public function deleteConfirm(Conta $conta)
     {
         return view('conta.deleteConfirm', compact('conta'));
     }

@@ -1,41 +1,39 @@
 @include('shared.alert')
-<div class="container" ng-controller="AluguelController">
+<div class="container" ng-controller="ContaController">
     <div class="form-group col-md-12">
-        <p>Dados Aluguel</p>
+        <p>Dados do Contrato</p>
     </div>
-    <div class="form-group col-md-1">
-        {!! Form::label('numeroAluguel', 'Numero:') !!}
-        {!! Form::text('numeroAluguel', $aluguel->numeroAluguel, ['class' => 'form-control']) !!}
+    <div class="form-group col-md-6">
+        {!! Form::label('cliente_id', 'Cliente:') !!}
+        @if($contrato->cliente_id!=null)
+            {!! Form::select('cliente_id',  $clientes, $contrato->cliente_id,['class' => 'form-control','disabled' =>'disabled'] ) !!}
+        @else
+            {!! Form::select('cliente_id',  $clientes, $contrato->cliente_id,['class' => 'form-control'] ) !!}
+        @endif
     </div>
-    <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelMensal', 'Valor  Mensal R$ : ') !!}
-        {!! Form::text('valorAluguelMensal', $aluguel->valorAluguelMensal, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+    <div class="form-group col-md-6">
+        {!! Form::label('aluguel_id', 'Aluguel:') !!}
+        @if($contrato->aluguel_id!=null)
+            {!! Form::select('aluguel_id',  $alugueis, $contrato->aluguel_id,['class' => 'form-control','disabled' =>'disabled'] ) !!}
+        @else
+            {!! Form::select('aluguel_id',  $alugueis, $contrato->aluguel_id,['class' => 'form-control'] ) !!}
+        @endif
     </div>
-    <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelDiario', 'Valor  Diario R$ :') !!}
-        {!! Form::text('valorAluguelDiario', $aluguel->valorAluguelDiario, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+    <div class="form-group col-md-3">
+        {!! Form::label('dataInicioContrato', 'Data Inicio: ') !!}
+        {!! Form::date('dataInicioContrato', $contrato->dataInicioContrato, ['class' => 'form-control']) !!}
     </div>
-    <div class="form-group col-md-2">
-        {!! Form::label('multaPorcentagemAtraso', 'Multa Mensal %:') !!}
-        {!! Form::text('multaPorcentagemAtraso', $aluguel->multaPorcentagemAtraso, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+    <div class="form-group col-md-3">
+        {!! Form::label('dataFimContrato', 'Data Fim:') !!}
+        {!! Form::date('dataFimContrato', $contrato->dataFimContrato, ['class' => 'form-control']) !!}
     </div>
-    @if($aluguel->id)
-        <div class="form-group col-md-2">
-            {!! Form::label('status', 'Status:') !!}
-            {{ Form::select('status',  [
-                   'alugado' => 'Alugado',
-                   'em_reforma' => 'Em Reforma',
-                   'aguardoando_locacao' => 'Aguardando Locação'],$aluguel->status,['class' => 'form-control']
-            )}}
-        </div>
-    @endif
-    <div class="form-group col-md-12">
-        {!! Form::label('descricaoAluguel', 'Descrição da Locação:') !!}
-        {!! Form::textarea('descricaoAluguel', $aluguel->descricaoAluguel, ['class' => 'form-control']) !!}
-
+    <div class="form-group col-md-3">
+        {!! Form::label('tipoContrato', 'Status Pagamento:') !!}
+        <p>Mensal {!! Form::radio('tipoContrato', 'mensal', ['class' => 'form-control']) !!}</p>
+        <p>Diario {!! Form::radio('tipoContrato', 'diario', ['class' => 'form-control']) !!}</p>
     </div>
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
-        <a href="{{ route('aluguel.index') }}" class="btn btn-info" role="button">Voltar</a>
+        <a href="{{ route('contrato.index') }}" class="btn btn-info" role="button">Voltar</a>
     </div>
 </div>

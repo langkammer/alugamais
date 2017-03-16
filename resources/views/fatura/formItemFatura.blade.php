@@ -11,19 +11,19 @@
     </div>
     <div class="form-group col-md-3">
         <p>Data Ini Fatura</p>
-        {!! $fatura->periodoFaturaIni !!}
+        {{ Carbon\Carbon::parse($fatura->periodoFaturaIni)->format('d/m/Y') }}
     </div>
     <div class="form-group col-md-3">
         <p>Data Fim Fatura</p>
-        {!! $fatura->periodoFaturaFinal !!}
+        {{ Carbon\Carbon::parse($fatura->periodoFaturaFinal)->format('d/m/Y') }}
     </div>
     <div class="form-group col-md-2">
         <p>Data Emissao</p>
-        {!! $fatura->dataEmissao !!}
+        {{ Carbon\Carbon::parse($fatura->dataEmissao)->format('d/m/Y') }}
     </div>
     <div class="form-group col-md-2">
         <p>Data Vencimento</p>
-        {!! $fatura->dataVencimento !!}
+        {{ Carbon\Carbon::parse($fatura->dataVencimento)->format('d/m/Y') }}
     </div>
     <div class="form-group col-md-12">
         <hr />
@@ -36,11 +36,12 @@
     </div>
     <div class="form-group col-md-2">
         <p>Val Ini Contrato</p>
-        {!! $fatura->contratos->dataInicioContrato !!}
+        {{ Carbon\Carbon::parse($fatura->dataInicioContrato)->format('d/m/Y') }}
+
     </div>
     <div class="form-group col-md-2">
         <p>Val Fim Contrato</p>
-        {!! $fatura->contratos->dataFimContrato !!}
+        {{ Carbon\Carbon::parse($fatura->dataFimContrato)->format('d/m/Y') }}
     </div>
     <div class="form-group col-md-2">
         <p>Tipo Contrato</p>

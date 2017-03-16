@@ -47,8 +47,8 @@
     </div>
     <div class="form-group col-md-3">
         {!! Form::label('statusPagamento', 'Status Pagamento:') !!}
-        <p>Conta Paga {!! Form::radio('statusPagamento', 1,$conta->statusPagamento, ['class' => 'form-control']) !!}</p>
-        <p>Conta Nao Paga {!! Form::radio('statusPagamento',0, $conta->statusPagamento, ['class' => 'form-control']) !!}</p>
+        <p>Paga {!! Form::radio('statusPagamento', 1, ['class' => 'form-control']) !!}</p>
+        <p>A pagar {!! Form::radio('statusPagamento', 0, ['class' => 'form-control']) !!}</p>
     </div>
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
