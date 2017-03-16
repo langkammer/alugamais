@@ -1,41 +1,57 @@
 @include('shared.alert')
-<div class="container" ng-controller="AluguelController">
+<div class="container" ng-controller="ContaController">
     <div class="form-group col-md-12">
-        <p>Dados Aluguel</p>
+        <p>Dados da Conta</p>
     </div>
-    <div class="form-group col-md-1">
-        {!! Form::label('numeroAluguel', 'Numero:') !!}
-        {!! Form::text('numeroAluguel', $aluguel->numeroAluguel, ['class' => 'form-control']) !!}
+    <div class="form-group col-md-3">
+        {!! Form::label('tipoConta', 'Tipo da Conta:') !!}
+        {{ Form::select('tipoConta',  [
+               'luz' => 'Luz',
+               'agua' => 'Agua'
+               ],
+               $conta->tipoConta,
+               ['class' => 'form-control']
+        )}}
+    </div>
+    <div class="form-group col-md-4">
+        {!! Form::label('nomeConta', 'Nome Da Conta:') !!}
+        {!! Form::text('nomeConta', $conta->nomeConta, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelMensal', 'Valor  Mensal R$ : ') !!}
-        {!! Form::text('valorAluguelMensal', $aluguel->valorAluguelMensal, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('quantidadeMedicao', 'Valor  Mensal R$ : ') !!}
+        {!! Form::text('quantidadeMedicao', $conta->quantidadeMedicao, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('valorAluguelDiario', 'Valor  Diario R$ :') !!}
-        {!! Form::text('valorAluguelDiario', $aluguel->valorAluguelDiario, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('valorUnitario', 'Valor Unitario:') !!}
+        {!! Form::text('valorUnitario', $conta->valorUnitario, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group col-md-2">
-        {!! Form::label('multaPorcentagemAtraso', 'Multa Mensal %:') !!}
-        {!! Form::text('multaPorcentagemAtraso', $aluguel->multaPorcentagemAtraso, ['class' => 'form-control','data-thousands' => "", 'data-decimal' => "."]) !!}
+        {!! Form::label('valor', 'Valor :') !!}
+        {!! Form::text('valor', $conta->valor, ['class' => 'form-control']) !!}
     </div>
-    @if($aluguel->id)
-        <div class="form-group col-md-2">
-            {!! Form::label('status', 'Status:') !!}
-            {{ Form::select('status',  [
-                   'alugado' => 'Alugado',
-                   'em_reforma' => 'Em Reforma',
-                   'aguardoando_locacao' => 'Aguardando Locação'],$aluguel->status,['class' => 'form-control']
-            )}}
-        </div>
-    @endif
-    <div class="form-group col-md-12">
-        {!! Form::label('descricaoAluguel', 'Descrição da Locação:') !!}
-        {!! Form::textarea('descricaoAluguel', $aluguel->descricaoAluguel, ['class' => 'form-control']) !!}
-
+    <div class="form-group col-md-3">
+        {!! Form::label('dataIniLeitura', 'Data Inicial:') !!}
+        {!! Form::date('dataIniLeitura', $conta->dataIniLeitura, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-3">
+        {!! Form::label('dataFimLeitura', 'Data Final:') !!}
+        {!! Form::date('dataFimLeitura', $conta->dataFimLeitura, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-3">
+        {!! Form::label('mesRef', 'Mes Ref:') !!}
+        {!! Form::text('mesRef', $conta->mesRef, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-3">
+        {!! Form::label('porcentagemMultaAtraso', 'Multa porcentagem:') !!}
+        {!! Form::text('porcentagemMultaAtraso', $conta->porcentagemMultaAtraso, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group col-md-3">
+        {!! Form::label('statusPagamento', 'Status Pagamento:') !!}
+        <p>Conta Paga {!! Form::radio('statusPagamento', 1,$conta->statusPagamento, ['class' => 'form-control']) !!}</p>
+        <p>Conta Nao Paga {!! Form::radio('statusPagamento',0, $conta->statusPagamento, ['class' => 'form-control']) !!}</p>
     </div>
     <div class="form-group col-md-12">
         {!! Form::submit($salvar, ['class' => 'btn btn-primary']) !!}
-        <a href="{{ route('aluguel.index') }}" class="btn btn-info" role="button">Voltar</a>
+        <a href="{{ route('contas.index') }}" class="btn btn-info" role="button">Voltar</a>
     </div>
 </div>

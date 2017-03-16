@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conta;
+use App\Http\Requests\ContaRequest;
 use Illuminate\Http\Request;
 
 class ContasController extends Controller
@@ -11,45 +12,61 @@ class ContasController extends Controller
     //
     public function index()
     {
+
         $contas = Conta::all();
 
         return view('conta.index', compact('contas'));
+
     }
 
-    public function store(Conta $request)
+    public function create()
     {
-        return Conta::create($request->all());
+        $conta = new Conta;
+
+        return view('conta.create', compact('conta'));
+    }
+
+    public function edit(Conta $conta)
+    {
+        return view('conta.edit', compact('conta'));
+    }
+
+    public function store(ContaRequest $request)
+    {
+        $conta = new Conta();
+
+        $aluguelRequest = $conta->save($request->all());
+
+        session()->flash('flash_message', 'Conta cadastrado com Sucesso!');
+
+        return redirect('contas');
     }
 
     public function show(Conta $conta)
     {
-        return $conta;
+        return view('conta.show', compact('conta'));
     }
 
-    public function showJson($id)
+    public function update(ContaRequest $request, Conta $conta)
     {
+        $conta->update($request->all());
 
-        if($id == '----')
-            return ['data' => ['data' => null],'mensagem' => "sem dados"];
+        session()->flash('flash_message', 'Conta Atualizada com Sucesso');
 
-        $conta = Conta::find($id);
-
-        if($conta!=null)
-            return ['data' => ['data' => $conta], 'mensagem' => "ok"];
-        else
-            return ['data' => ['data' => null],'mensagem' => "sem dados"];
-
-        return ['data' => ['data' => $conta], 'mensagem' => "ok"];
-    }
-
-    public function update(Request $request, Conta $conta)
-    {
-        $conta->update($conta->all());
-        return $conta;
+        return redirect('contas');
     }
 
     public function destroy(Conta $conta)
     {
-        return (string) $conta->delete();
+
+        $deleted = $conta->delete();
+        session()->flash('flash_message', 'Conta deletada com Sucesso!');
+
+        return redirect('contas');
+    }
+
+    public function deleteConfirm(Conta $aluguel)
+    {
+        return view('conta.deleteConfirm', compact('conta'));
     }
 }

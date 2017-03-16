@@ -17,6 +17,11 @@ angular.module('alugamais',
 
 
 }])
+.controller('ContaController', ['$scope',function($scope) {
+
+    console.log("testado ");
+
+}])
 .controller('AluguelController', [function() {
 
 

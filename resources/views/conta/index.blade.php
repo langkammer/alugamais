@@ -4,7 +4,7 @@
     <div class="container">
     @include('shared.alert')
     <h1>Alugueis</h1>
-    {!! link_to_route('aluguel.create', 'Novo Aluguel', null, [
+    {!! link_to_route('contas.create', 'Nova Conta', null, [
         'class' => 'btn btn-primary btn-lg',
         'data-remote' => 'true' ]) !!}
         <p></p>
@@ -19,16 +19,16 @@
             <th></th>
 
         </tr>
-        @foreach ($aluguels as $aluguel)
+        @foreach ($contas as $conta)
             <tr>
-                <td>{!! $aluguel->tipoConta !!}</td>
-                <td>{!! $aluguel->nomeConta !!}</td>
-                <td>{!! $aluguel->valor !!}</td>
-                <td>{!! $aluguel->quantidadeMedicao !!}%</td>
+                <td>{!! $conta->tipoConta !!}</td>
+                <td>{!! $conta->nomeConta !!}</td>
+                <td>{!! $conta->valor !!}</td>
+                <td>{!! $conta->quantidadeMedicao !!}%</td>
                 <td>
-                @if($aluguel->statusPagamento==true)
+                @if($conta->statusPagamento==true)
                     Pago
-                @else($aluguel->statusPagamento=='aguardoando_locacao')
+                @else($conta->statusPagamento=='aguardoando_locacao')
                     Aguardando Pagamento
                 @endif
                 </td>
