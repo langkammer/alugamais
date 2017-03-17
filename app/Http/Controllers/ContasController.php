@@ -61,6 +61,16 @@ class ContasController extends Controller
         return redirect('contas');
     }
 
+    public  function showJson($id){
+
+        $conta = Conta::find($id);
+
+        if($conta!=null)
+            return ['data' => ['data' => $conta], 'mensagem' => "ok"];
+        else
+            return ['data' => ['data' => null],'mensagem' => "sem dados"];
+    }
+
     public function destroy(Conta $conta)
     {
 

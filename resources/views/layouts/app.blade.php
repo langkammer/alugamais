@@ -88,9 +88,9 @@
         @yield('content')
     </div>
     <!-- Scripts -->
-    <script type="text/javascript" src='/js/3rd-party.js'></script>
-    <script type="text/javascript" src='/js/maskmoney.js'></script>
-    <script type="text/javascript" src='/js/app.js'></script>
+    <script type="text/javascript" src='{{ asset('js/3rd-party.js') }}'></script>
+    <script type="text/javascript" src='{{ asset('js/maskmoney.js') }}'></script>
+    <script type="text/javascript" src='{{ asset('js/app.js') }}'></script>
     <script>
         $("#valorAluguelMensal").maskMoney();
         $("#multaPorcentagemAtraso").maskMoney();
