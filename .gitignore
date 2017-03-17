@@ -7,7 +7,6 @@
 Homestead.json
 Homestead.yaml
 .env
-/public
 /bower_components
 .DS_Store
 npm-debug.log
